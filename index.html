@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Andrei Scarevnea | Cyber Security Student</title>
+<meta name="description" content="Andrei Scarevnea, Digital Forensics and Cyber Security student at TU Dublin. Projects in Azure security, SOC log analysis and web application testing.">
+<meta name="theme-color" content="#0f1724">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1724; --panel:#162235; --line:#2a3b56; --text:#e9eef5; --muted:#a3b3c8;
+  --accent:#8ec5ff; --flag:#f4b942; --max:1040px;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Instrument Sans","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--text);font:400 1.0625rem/1.65 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:3px}
+a:hover{color:#fff}
+:focus-visible{outline:2px solid var(--flag);outline-offset:3px;border-radius:2px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-999px}.skip:focus{left:16px;top:12px;background:#fff;color:#000;padding:8px 12px;z-index:20}
+
+header.nav{position:sticky;top:0;z-index:10;background:rgba(15,23,36,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;justify-content:space-between;align-items:center;height:60px}
+.nav .name{font:700 1.05rem var(--display);color:var(--text);text-decoration:none}
+.nav ul{display:flex;gap:26px;list-style:none;padding:0}
+.nav ul a{color:var(--muted);text-decoration:none;font-size:.97rem}
+.nav ul a:hover{color:var(--text)}
+
+section{padding:88px 0 0}
+h1,h2,h3{font-family:var(--display);line-height:1.1;letter-spacing:-.02em}
+h2{font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:12px}
+.lede{color:var(--muted);max-width:60ch}
+
+/* hero */
+.hero{padding-top:84px}
+h1{font-size:clamp(3.2rem,11vw,7.4rem);font-weight:700;letter-spacing:-.045em;line-height:.95}
+h1 span{display:block;color:var(--accent)}
+.hero p{margin-top:28px;font-size:1.25rem;max-width:34em}
+.status{margin-top:22px;display:inline-flex;gap:10px;align-items:center;color:var(--muted);font-size:.98rem}
+.status i{width:9px;height:9px;border-radius:50%;background:var(--flag);box-shadow:0 0 0 4px rgba(244,185,66,.18)}
+.links{margin-top:30px;display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:11px 20px;border:1px solid var(--line);border-radius:6px;color:var(--text);text-decoration:none;font-weight:500}
+.btn:hover{border-color:var(--accent);color:#fff}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#0b1422}
+.btn.primary:hover{background:#b3d8ff}
+
+/* projects */
+.project{margin-top:44px;padding-top:36px;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px;align-items:start}
+.project h3{font-size:1.6rem;margin-bottom:6px}
+.where{color:var(--muted);font-size:.95rem;margin-bottom:14px}
+.project ul{padding-left:1.1em;margin:14px 0}
+.project li{margin-bottom:8px;color:#cdd8e6}
+.tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0!important;margin-top:16px!important}
+.tags li{margin:0;padding:3px 11px;border:1px solid var(--line);border-radius:999px;font-size:.88rem;color:var(--muted)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
+.panel svg{width:100%;height:auto;display:block}
+.panel figcaption{color:var(--muted);font-size:.9rem;margin-top:10px}
+svg text{font-family:var(--body);fill:var(--text);font-size:13px}
+svg .m{fill:var(--muted);font-size:11.5px}
+.box{fill:#1d2d47;stroke:var(--line)}
+.sub{fill:none;stroke:var(--accent);stroke-dasharray:5 4;opacity:.7}
+.flow{stroke:var(--accent);stroke-width:2;fill:none;stroke-dasharray:6 6;animation:dash 1.4s linear infinite}
+.blocked{stroke:var(--flag);stroke-width:2;fill:none;stroke-dasharray:3 5}
+@keyframes dash{to{stroke-dashoffset:-24}}
+
+.findings{list-style:none;padding:0!important;margin:0!important;display:grid;gap:10px}
+.findings li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline;margin:0;padding:12px 14px;background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--flag);border-radius:6px}
+.findings b{font:700 1.7rem var(--display);color:var(--flag);min-width:3.2ch;text-align:right}
+.findings span{color:var(--text);font-size:.97rem}
+.owasp{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;list-style:none;padding:0!important;margin:0!important}
+.owasp li{margin:0;padding:12px 14px;background:var(--bg);border:1px solid var(--line);border-radius:6px;font-size:.95rem}
+.owasp li small{display:block;color:var(--muted);font-size:.84rem}
+
+/* skills */
+.skills{margin-top:36px;display:grid;grid-template-columns:repeat(2,1fr);gap:0 56px}
+.skills div{padding:20px 0;border-top:1px solid var(--line)}
+.skills dt{font:600 1.15rem var(--display);margin-bottom:6px}
+.skills dd{color:var(--muted)}
+
+/* experience / about */
+.two{margin-top:30px;display:grid;grid-template-columns:repeat(2,1fr);gap:48px}
+.two h3{font-size:1.2rem;margin-bottom:14px}
+.two p+p{margin-top:12px}
+.entry{padding:14px 0;border-top:1px solid var(--line)}
+.entry strong{display:block;font-weight:600}
+.entry span{color:var(--muted);font-size:.95rem}
+
+footer{margin-top:96px;border-top:1px solid var(--line);padding:56px 0 64px}
+footer h2{margin-bottom:12px}
+footer .links{margin-top:22px}
+.fine{margin-top:44px;color:var(--muted);font-size:.9rem}
+
+@media(max-width:820px){
+  .project,.two,.skills{grid-template-columns:1fr;gap:28px}
+  .skills{gap:0}
+  .nav ul{gap:16px}
+  section{padding-top:68px}
+}
+@media(max-width:480px){.nav ul li:first-child{display:none}.owasp{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.flow{animation:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="name" href="#top">Andrei Scarevnea</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<div class="wrap">
+
+<section class="hero" id="top">
+  <h1>Andrei<span>Scarevnea</span></h1>
+  <p>I’m a cyber security student who builds and tests secure systems: locked-down Azure environments, scripts that spot attacks in logs, and web apps I try to break.</p>
+  <div class="status"><i aria-hidden="true"></i>Open to IT and cyber security internships</div>
+  <div class="links">
+    <a class="btn primary" href="#projects">See my projects</a>
+    <a class="btn" href="https://www.linkedin.com/in/andrei-scarevnea-4b263628b/">LinkedIn</a>
+    <a class="btn" href="https://github.com/YOUR-USERNAME">GitHub</a>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <p class="lede">Three pieces of coursework where I designed, built or tested something, and checked that it worked.</p>
+
+  <article class="project">
+    <div>
+      <h3>Secure Azure web app deployment</h3>
+      <p class="where">TU Dublin, Security Administration</p>
+      <p>A web app environment on Azure where the database can’t be reached from the internet, and each user role only gets the access it needs.</p>
+      <ul>
+        <li>Split the VM, SQL Database and Blob Storage into separate subnets, with Network Security Groups and private endpoints.</li>
+        <li>Built a custom RBAC matrix for three roles and tested access as each one.</li>
+        <li>Added SSH key-only login, PAM lockout, TLS 1.2, Transparent Data Encryption, fail2ban and AIDE.</li>
+        <li>Automated daily security checks, backups and log retention with Bash and cron.</li>
+      </ul>
+      <ul class="tags"><li>Azure</li><li>Linux</li><li>Bash</li><li>RBAC</li><li>NSGs</li></ul>
+    </div>
+    <figure class="panel">
+      <svg viewBox="0 -20 640 270" role="img" aria-labelledby="d1t d1d">
+        <title id="d1t">Azure network layout</title>
+        <desc id="d1d">Internet traffic reaches the web subnet. The web subnet reaches the database through a private endpoint and storage in its own subnet. A direct path from the internet to the database is blocked.</desc>
+        <rect class="box" x="14" y="92" width="96" height="56" rx="8"/>
+        <text x="62" y="125" text-anchor="middle">Internet</text>
+
+        <rect class="sub" x="176" y="22" width="200" height="206" rx="10"/>
+        <text class="m" x="190" y="42">Web subnet (NSG)</text>
+        <rect class="box" x="204" y="84" width="144" height="72" rx="8"/>
+        <text x="276" y="116" text-anchor="middle">Ubuntu VM</text>
+        <text class="m" x="276" y="136" text-anchor="middle">SSH keys only</text>
+
+        <rect class="sub" x="450" y="22" width="176" height="96" rx="10"/>
+        <text class="m" x="464" y="42">Data subnet (NSG)</text>
+        <rect class="box" x="472" y="54" width="132" height="48" rx="8"/>
+        <text x="538" y="84" text-anchor="middle">SQL Database</text>
+
+        <rect class="sub" x="450" y="132" width="176" height="96" rx="10"/>
+        <text class="m" x="464" y="152">Storage subnet (NSG)</text>
+        <rect class="box" x="472" y="164" width="132" height="48" rx="8"/>
+        <text x="538" y="194" text-anchor="middle">Blob Storage</text>
+
+        <path class="flow" d="M110 120 H204"/>
+        <path class="flow" d="M348 106 C400 106 410 78 472 78"/>
+        <path class="flow" d="M348 134 C400 134 410 188 472 188"/>
+        <path class="blocked" d="M62 92 C62 -34 380 -34 538 22"/>
+        <text x="300" y="14" text-anchor="middle" style="fill:#f4b942;font-size:12px">No public route to the database</text>
+        <text class="m" x="400" y="76" text-anchor="middle" transform="translate(0,-10)">private endpoint</text>
+      </svg>
+      <figcaption>Simplified layout of the environment. Solid motion shows allowed traffic; the amber line is the path that is blocked.</figcaption>
+    </figure>
+  </article>
+
+  <article class="project">
+    <div>
+      <h3>SOC log analysis and threat detection tool</h3>
+      <p class="where">PowerShell, personal project</p>
+      <p>A modular PowerShell tool that reads raw logs and writes one investigation report, the way an analyst would triage an alert queue.</p>
+      <ul>
+        <li>Parses authentication, PowerShell execution and IOC logs.</li>
+        <li>Flags brute-force logins, obfuscated commands, IOC matches and staged data exfiltration.</li>
+        <li>Tested on a simulated high-risk incident and flagged it correctly.</li>
+      </ul>
+      <ul class="tags"><li>PowerShell</li><li>Log analysis</li><li>IOCs</li><li>Incident response</li></ul>
+    </div>
+    <div class="panel">
+      <ul class="findings" aria-label="Findings from the simulated incident">
+        <li><b>1,815</b><span>failed logins surfaced as brute-force activity</span></li>
+        <li><b>4</b><span>suspicious PowerShell commands flagged</span></li>
+        <li><b>14</b><span>indicators of compromise matched in the raw logs</span></li>
+      </ul>
+      <p class="where" style="margin:12px 0 0">Results from running the tool on a simulated incident.</p>
+    </div>
+  </article>
+
+  <article class="project">
+    <div>
+      <h3>Web application penetration test: OWASP Juice Shop</h3>
+      <p class="where">TU Dublin, Web Application Security</p>
+      <p>I attacked a deliberately vulnerable web app with Burp Suite, then wrote up each finding with a fix.</p>
+      <ul>
+        <li>Found and exploited 7 vulnerabilities myself (23 solved across the team).</li>
+        <li>Wrote a technical report mapping every finding to OWASP Top 10 and CWE, with root cause and remediation advice.</li>
+      </ul>
+      <ul class="tags"><li>Burp Suite</li><li>OWASP Top 10</li><li>CWE</li><li>Reporting</li></ul>
+    </div>
+    <div class="panel">
+      <ul class="owasp" aria-label="Vulnerability types exploited">
+        <li>SQL Injection<small>Injection</small></li>
+        <li>Broken Access Control<small>Authorisation</small></li>
+        <li>Sensitive Data Exposure<small>Cryptographic failures</small></li>
+        <li>Security Misconfiguration<small>Hardening</small></li>
+      </ul>
+      <p class="where" style="margin:12px 0 0">Burp Suite Proxy, Repeater and Intruder.</p>
+    </div>
+  </article>
+</section>
+
+<section id="skills">
+  <h2>Skills</h2>
+  <p class="lede">What I’ve used in coursework and projects.</p>
+  <dl class="skills">
+    <div><dt>Scripting and automation</dt><dd>Python, PowerShell, Bash, cron scheduling, log parsing and automated reporting.</dd></div>
+    <div><dt>Cloud and infrastructure</dt><dd>Microsoft Azure: VMs, NSGs, RBAC, SQL Database, Blob Storage, Private Endpoints.</dd></div>
+    <div><dt>Operating systems and networking</dt><dd>Linux (Ubuntu), Windows, TCP/IP, IPv4/IPv6, subnetting and VLSM, switches, routers and VLANs.</dd></div>
+    <div><dt>Identity and access</dt><dd>Active Directory, Azure RBAC, least-privilege access, PAM policies, user permissions.</dd></div>
+    <div><dt>Security tools</dt><dd>Burp Suite, Semgrep, Wireshark, Nmap, fail2ban, UFW and iptables, AIDE.</dd></div>
+    <div><dt>Concepts</dt><dd>OWASP Top 10, SAST and DAST, network segmentation, encryption in transit and at rest, incident response, SIEM fundamentals.</dd></div>
+  </dl>
+</section>
+
+<section id="about">
+  <h2>About</h2>
+  <div class="two">
+    <div>
+      <p>I’m in the third year of the BSc (Hons) in Digital Forensics and Cyber Security at TU Dublin, Blanchardstown. I like understanding how a system is built, then working out how it could be misused and how to stop that.</p>
+      <p>Outside college I’ve completed 69 TryHackMe rooms covering network fundamentals, web exploitation and Linux privilege escalation. I also work as a security officer at an international company, where I’m the first point of contact for employees and visitors and look after access control.</p>
+      <p>I speak Romanian and English, with some Russian.</p>
+    </div>
+    <div>
+      <h3>Education and training</h3>
+      <div class="entry"><strong>BSc (Hons) Digital Forensics and Cyber Security</strong><span>TU Dublin, September 2024 to present</span></div>
+      <div class="entry"><strong>QQI Level 5, Computer Systems and Networks</strong><span>Whitehall College of Further Education, Distinction</span></div>
+      <div class="entry"><strong>First Aid Responder and licensed Security Guard</strong><span>Certifications</span></div>
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <h2>Get in touch</h2>
+    <p class="lede">I’m looking for an internship where I can work on real IT and security problems alongside experienced engineers. If my work fits your team, I’d like to hear from you.</p>
+    <div class="links">
+      <a class="btn primary" href="mailto:scarevneaandrei@gmail.com">Email me</a>
+      <a class="btn" href="https://www.linkedin.com/in/andrei-scarevnea-4b263628b/">LinkedIn</a>
+      </div>
+    <p class="fine">© 2026 Andrei Scarevnea. Based in Dublin, Ireland.</p>
+  </div>
+</footer>
+</body>
+</html>
