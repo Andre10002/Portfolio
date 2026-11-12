@@ -70,7 +70,7 @@ Admin IP ──SSH──▶ Bastion SG ──SSH───────┘
 | File | Description |
 |---|---|
 | `WinLocal_AWS_PoC_Public.pdf` | Full report: design, implementation evidence, additional services, sustainability (sanitised) |
-| `architecture-diagram.png` | Target architecture diagram |
+| `WinLocal Giveaways.jpg` | Target architecture diagram |
 
 > The public report omits screenshots that contained IP addresses, account IDs, endpoints and resource identifiers.
 
