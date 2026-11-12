@@ -66,23 +66,6 @@ The organisation has suffered costly cyberattacks on its network and wants an au
 - **`anomaly_score` dominates the tree**, at about 81% of its feature importance. The engineered `login_failure_rate` ranks third, so the new feature added information.
 - **Regression:** Linear Regression beat the tree (R² 0.475 against 0.374), suggesting a roughly linear relationship. Session duration is only moderately predictable from these features.
 
-## Note on class labels in the notebook
-
-The notebook encodes the target with `LabelEncoder`, which orders classes alphabetically, so **Attack = 0 and Benign = 1**, although a code comment says the opposite. The classification reports and comparison table printed by the original notebook therefore have the two classes swapped: what they label "Attack" is really Benign (for example, the 0.98 "attack recall" is Benign recall). The tables in this README are the same results with the classes labelled correctly.
-
-To fix it, encode the target explicitly:
-
-```python
-data['is_attack'] = data['is_attack'].map({'Benign': 0, 'Attack': 1})
-```
-
-## What I would do next
-
-- **Tune for the right metric.** Use `scoring='recall'` or `'f1'` with Attack as the positive class instead of accuracy.
-- **Handle the imbalance:** `class_weight='balanced'`, SMOTE oversampling, or a lower decision threshold chosen from a precision-recall curve.
-- **Try stronger models** (Random Forest, gradient boosting) and compare them with precision-recall AUC.
-- **Add Pipelines** so scaling and imputation are fitted inside cross-validation only, avoiding any leakage.
-
 ## How to run
 
 **Requirements:** Python 3.9+, `pandas`, `numpy`, `scikit-learn` (1.2 or newer, for `ComplementNB(force_alpha=...)`), `matplotlib`, `seaborn`, and Jupyter or Google Colab.
