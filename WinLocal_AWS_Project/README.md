@@ -1,10 +1,6 @@
-# WinLocal Giveaways: AWS Migration (Proof of Concept)
+# WinLocal Giveaways: AWS Migration
 
 Migration of a fictional on-premises competition platform to AWS, designed for **availability, scalability and security**, and evaluated against the AWS Well-Architected sustainability pillar.
-
-![Target architecture](./architecture-diagram.png)
-
-*Target architecture across two Availability Zones. Components marked "Additional - Not in PoC" are designed but not built.*
 
 ## The problem
 
