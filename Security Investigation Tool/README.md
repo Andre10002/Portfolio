@@ -1,69 +1,108 @@
 # Security Investigation Tool
 
-A modular **PowerShell** tool that reads raw log files and produces a single investigation report, the way an analyst would work through an alert queue.
+A modular **PowerShell** tool that turns raw log files into a single investigation report. It follows what a SOC analyst does when triaging an alert: read the authentication, PowerShell and web logs, check them against known indicators of compromise (IOCs), and decide how serious the activity is.
 
-## What it detects
+## Results
 
-| Log source | What the tool looks for |
-|---|---|
-| **Authentication logs** | Brute-force login activity (many failed logins) |
-| **PowerShell execution logs** | Obfuscated or suspicious commands |
-| **IOC data** (indicators of compromise) | Known-bad indicators found in the raw logs |
-| **Combined activity** | Signs of staged data exfiltration |
-
-All findings are combined into **one investigation report**.
-
-## Results on a simulated high-risk incident
+Run against the simulated incident included in this project, the tool surfaced:
 
 | Detection | Result |
 |---|---|
-| Failed logins surfaced as brute-force activity | **1,815** |
+| Failed logins identified as brute-force activity | **1,815** |
 | Suspicious PowerShell commands flagged | **4** |
-| IOCs matched in the raw logs | **14** |
+| Indicators of compromise matched in the logs | **14** |
 
-The tool correctly flagged the simulated incident as high risk.
+The incident was correctly flagged as **high risk**, and everything was written to one report: [`investigation_report.txt`](./Project/investigation_report.txt).
 
 ## How it works
 
-1. **Collect.** Read each log source from the input folder.
-2. **Analyse.** Each detection is a separate module, so rules can be added or changed without touching the others.
-3. **Correlate.** Combine results across logs, for example matching IOCs against activity seen in authentication and PowerShell logs.
-4. **Report.** Write one report with the findings and a risk assessment.
+```
+Project Database/                 Scripts/                             Output
+┌────────────────────┐
+│ auth.log           │──▶ Detect-FailedLogins.ps1 ──┐
+│ powershell_log.txt │──▶ Detect-SuspiciousPS.ps1 ──┤
+│ access.log + ioc.txt│─▶ Detect-IOCMatches.ps1 ────┼──▶ Write-Report.ps1 ──▶ investigation_report.txt
+│ (all logs)         │──▶ Detect-Exfiltration.ps1 ──┘
+└────────────────────┘
+                 run.ps1 runs the whole pipeline
+```
 
-## Requirements
+1. **Collect:** the logs in `Project Database/` are the input.
+2. **Detect:** each detection is its own script, so rules can be added, changed or tested independently.
+3. **Report:** `Write-Report.ps1` combines every finding into one plain-text report.
+4. **Run:** `run.ps1` is the single entry point that runs the detections and generates the report.
 
-- Windows PowerShell 5.1 or PowerShell 7+
+## Detections
+
+| Script | What it looks for |
+|---|---|
+| `Detect-FailedLogins.ps1` | Repeated failed logins in the authentication log, i.e. brute-force activity |
+| `Detect-SuspiciousPS.ps1` | Suspicious and obfuscated commands in the PowerShell execution log |
+| `Detect-IOCMatches.ps1` | Known-bad indicators from `ioc.txt` appearing in the logs |
+| `Detect-Exfiltration.ps1` | Signs of staged data exfiltration |
+| `Write-Report.ps1` | Combines all findings into `investigation_report.txt` |
+
+## Input data
+
+| File | Description |
+|---|---|
+| `auth.log` | Authentication log (login attempts) |
+| `powershell_log.txt` | PowerShell execution log |
+| `access.log` | Web server access log |
+| `ioc.txt` | List of indicators of compromise to match against |
+
+All input data is **simulated**. No real user, company or network data is included.
 
 ## Usage
 
-<!-- Replace the script name and parameters with the ones in your code. -->
+**Requirements:** Windows PowerShell 5.1 or PowerShell 7+.
 
 ```powershell
-# Allow scripts to run for this session only
+# From the repository root
+cd "Security Investigation Tool\Project"
+
+# Allow scripts to run in this window only (reverts when you close it)
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-# Run the tool
-.\<main-script>.ps1
+# Run the full investigation
+.\run.ps1
 ```
 
-## Project structure
+Then open `investigation_report.txt` to read the findings.
 
-<!-- Replace with your actual files. -->
+## Project structure
 
 ```
 Security Investigation Tool/
 ├── README.md
-├── <main-script>.ps1       # Entry point
-├── modules/                # One module per detection
-├── logs/                   # Simulated input logs
-└── reports/                # Example output report
+└── Project/
+    ├── run.ps1                      # Entry point: runs every detection and the report
+    ├── investigation_report.txt     # Example output from the simulated incident
+    ├── Project Database/            # Simulated input data
+    │   ├── access.log
+    │   ├── auth.log
+    │   ├── ioc.txt
+    │   └── powershell_log.txt
+    └── Scripts/
+        ├── Detect-Exfiltration.ps1
+        ├── Detect-FailedLogins.ps1
+        ├── Detect-IOCMatches.ps1
+        ├── Detect-SuspiciousPS.ps1
+        └── Write-Report.ps1
 ```
 
-## Notes
+## Design decisions
 
-- All logs and indicators are **simulated**. No real user or company data is included.
-- The tool is for learning and analysis practice, not a replacement for a SIEM.
+- **One script per detection.** A new detection is a new `Detect-*.ps1` file plus one line in `run.ps1`; nothing else changes.
+- **Detection separated from reporting.** The detection scripts find things; `Write-Report.ps1` decides how they are presented.
+- **Data separated from code.** Logs and IOCs live in their own folder, so the tool can be pointed at different data.
+
+## Limitations and possible improvements
+
+- It analyses **static log files**, not live streams, and is not a replacement for a SIEM.
+- Detection is **rule-based**, so it can miss new techniques and may flag legitimate activity.
+- Improvements I would add next: map findings to MITRE ATT&CK techniques, add a severity score per finding, accept log paths as parameters, export to CSV or HTML, and add Pester tests.
 
 ## Skills demonstrated
 
-PowerShell scripting, modular design, log parsing, threat detection logic, IOC matching and incident reporting.
+PowerShell scripting and modular design, log parsing, brute-force and obfuscation detection, IOC matching, and incident reporting.
